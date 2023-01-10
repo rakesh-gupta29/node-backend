@@ -6,8 +6,6 @@ class SignUpController {
       title: "Signup Page",
     });
   }
-  public static perform(req: Request, res: Response) {
-    res.json({ message: "will perform the signup operation" });
-  }
+  public static perform(req: Request, res: Response) {}
 }
 export default SignUpController;

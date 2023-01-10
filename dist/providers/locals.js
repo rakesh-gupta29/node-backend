@@ -19,7 +19,16 @@ class Locals {
         const apiPrefix = process.env.API_ROUTES_PREFIX || "api";
         const maxUploadLimit = process.env.MAX_UPLOAD_LIMIT;
         const mongooseUrl = process.env.MONGOOSE_URL || "";
-        return { port, url, isCORSEnabled, apiPrefix, maxUploadLimit, mongooseUrl };
+        const appSecret = process.env.APP_SECRET || "";
+        return {
+            port,
+            url,
+            isCORSEnabled,
+            apiPrefix,
+            maxUploadLimit,
+            mongooseUrl,
+            appSecret,
+        };
     }
 }
 exports.default = Locals;

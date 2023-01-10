@@ -44,7 +44,7 @@ class ExceptionHandler {
                 error: err,
             });
         }
-        return res.render("pages/error", {
+        return res.render("screens/error", {
             title: "Under Maintenance",
         });
     }
