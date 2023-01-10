@@ -46,9 +46,3 @@ npm run build
 ## Author
 
 [Rakesh Gupta](https://www.github.com/rakesh-gupta29)
-
-ToDO:
-why does Irequest and Iresponse fails to satisfy the response and Request criteria
-Include session and passper storage
-Include express validator package
-handling user request sanitisation

@@ -1,26 +1,27 @@
-import { Application } from "express";
 import * as express from "express";
 import * as session from "express-session";
 import logger from "./logger";
 import Locals from "../providers/locals";
+import MongoStore = require("connect-mongo");
 class HTTP {
-  public static mount(_app: Application): Application {
+  public static mount(_app: express.Application): express.Application {
     logger.info("Mouting the HTTP middlewares");
-    _app.use(express.json());
-
-    // Disable the x-powered-by header in response: X-Powered-By is set by various servers to say what kind of server it is
-    _app.disable("x-powered-by");
-    const options = {
-      resave: true,
-      saveUninitialized: true,
-      secret: Locals.loadConfig().appSecret,
-      cookie: {
-        maxAge: 1209600000, // two weeks (in ms)
-      },
-    };
-
-    _app.use(session(options));
-
+    _app.use(express.json()); // parse request body
+    _app.disable("x-powered-by"); // tells what kind of server it is
+    _app.use(
+      session({
+        resave: true,
+        saveUninitialized: true,
+        secret: Locals.loadConfig().appSecret,
+        cookie: {
+          maxAge: 1209600000, // two weeks
+        },
+        store: MongoStore.create({
+          mongoUrl: Locals.loadConfig().mongooseUrl,
+          collectionName: "sessions",
+        }),
+      })
+    );
     return _app;
   }
 }
