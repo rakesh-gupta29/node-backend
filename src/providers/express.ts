@@ -11,6 +11,12 @@ class Express {
     this.mountEnvConfig();
     this.mountMiddlewares();
     this.mountRoutes();
+    this.mountExceptionHandlers();
+  }
+  mountExceptionHandlers() {
+    this.express.use(ExceptionHandler.clientErrorHandler);
+    this.express.use(ExceptionHandler.globalErrorHandler);
+    this.express = ExceptionHandler.routeNotFound(this.express);
   }
   mountEnvConfig() {
     this.express = Locals.initConfig(this.express);
@@ -26,9 +32,6 @@ class Express {
   public createApp() {
     logger.info("Creating the App");
     const port = Locals.loadConfig().port;
-    this.express.use(ExceptionHandler.clientErrorHandler);
-    this.express.use(ExceptionHandler.globalErrorHandler);
-    this.express = ExceptionHandler.routeNotFound(this.express);
     this.express
       .listen(port, () => {
         return console.log(`SERVER :: Running @ 'http://localhost:${port}'`);

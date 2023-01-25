@@ -2,6 +2,7 @@ import * as crypto from "crypto";
 import * as bcrypt from "bcrypt-nodejs";
 import mongoose from "mongoose";
 import IUser from "../interfaces/models/users";
+import Locals from "../providers/locals";
 export interface IUserModel extends IUser, mongoose.Document {
   billingAddress(): string;
   comparePassword(password: string, cb: any): string;
@@ -41,17 +42,14 @@ UserSchema.pre<IUserModel>("save", function (_next) {
   if (!user.isModified("password")) {
     return _next();
   }
-
   bcrypt.genSalt(10, (_err, _salt) => {
     if (_err) {
       return _next(_err);
     }
-
     bcrypt.hash(user.password, _salt, null, (_err, _hash) => {
       if (_err) {
         return _next(_err);
       }
-
       user.password = _hash;
       return _next();
     });

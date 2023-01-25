@@ -7,6 +7,7 @@ class HTTP {
   public static mount(_app: express.Application): express.Application {
     logger.info("Mouting the HTTP middlewares");
     _app.use(express.json()); // parse request body
+    _app.use(express.urlencoded({ extended: true })); //  url encoded data
     _app.disable("x-powered-by"); // tells what kind of server it is
     _app.use(
       session({
